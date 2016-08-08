@@ -1,0 +1,81 @@
+﻿@model web_analytics.Models.ViewModels.PageVisitViewModel
+
+@if (Model != null)
+{
+	<div class="row">
+		<h1>Google Analytics Testing by Fredrik Larsson</h1>
+		<div class="col-lg-6">
+			<p>
+				This tool is not complete and might still crash.
+				The purpose of this tool is to let your customers test their google analytics data with different google metrics and dimensions.
+				Combine metrics with relevant dimensions for best results. Testing by only metrics and only by dimensions is also possible.
+
+				The main purpose is to use this in .NET EPiServer development for "Top article lists". 
+			</p>
+		</div>
+	</div>
+	<hr/>
+	<div class="row">
+		<div class="col-lg-6 well">
+			<table class="table">
+				<thead>
+				<tr>
+					@if (!string.IsNullOrWhiteSpace(Model.Dimensions))
+					{
+						foreach (var dimension in Model.Dimensions.Split(','))
+						{
+							<th>@dimension</th>
+						}
+					}
+					@if (!string.IsNullOrWhiteSpace(Model.Metrics))
+					{
+						<th>@Model.Metrics</th>
+					}
+
+				</tr>
+				</thead>
+				<tbody>
+				@if (Model != null)
+				{
+					foreach (var pageVisit in Model.Visits)
+					{
+						<tr>
+							<td>@pageVisit.Dimension1</td>
+							<td>@pageVisit.Dimension2</td>
+							<td>@pageVisit.Dimension3</td>
+							<td>@pageVisit.Dimension4</td>
+							<td>@pageVisit.Dimension5</td>
+
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						Enter dimensions
+					</tr>
+				}
+
+				</tbody>
+			</table>
+		</div>
+
+		<div class="col-lg-6">
+			@using (@Html.BeginForm("Index", "Home", FormMethod.Post))
+			{
+				<form>
+					<div class="form-group">
+						<label>Dimensions</label>
+						<input type="text" name="dimensions" class="form-control" placeholder="Dimensions">
+					</div>
+					<div class="form-group">
+						<label>Metrics</label>
+						<input type="text" name="metrics" class="form-control" placeholder="Metrics">
+					</div>
+					<button type="submit" class="btn btn-default">Get data</button>
+				</form>
+			}
+
+		</div>
+	</div>
+}
